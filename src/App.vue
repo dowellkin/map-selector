@@ -7,8 +7,7 @@
 		</select>
 		
 		<div class="wrapper">
-			<my-map v-model="test">
-
+			<my-map v-model="test" :markers="markers">
 			</my-map>
 		</div>
   </div>
@@ -16,6 +15,7 @@
 
 <script>
 import myMap from './components/map.vue'
+import markers from './markers.json'
 
 export default {
   name: 'App',
@@ -26,7 +26,8 @@ export default {
 		test: "",
 		data: [
 			{id:"BY-BR"},{id:"BY-HO"},{id:"BY-HM"},{id:"BY-HR"},{id:"BY-MA"},{id:"BY-MI"},{id:"BY-VI"}
-		]
+		],
+		markers,
 	})
 }
 </script>
