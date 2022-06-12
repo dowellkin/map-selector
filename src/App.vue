@@ -25,7 +25,8 @@ export default {
 	data: () => ({
 		test: "",
 		data: [
-			{id:"BY-BR"},{id:"BY-HO"},{id:"BY-HM"},{id:"BY-HR"},{id:"BY-MA"},{id:"BY-MI"},{id:"BY-VI"}
+			{id:"PL"},
+			{id:"DE"}
 		],
 		markers,
 	})
