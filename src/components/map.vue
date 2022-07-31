@@ -34,7 +34,11 @@
 
 				</g>
 				
-				<g>
+				<g
+					class="map_ui"
+					ref="notscale"
+					transform="matrix(1 0 0 1 0 0)"
+				>
 					<g v-for="marker in markerOrder" :key="marker.id + '_1'" >
 						<use :href="`#${marker.svgId || 'marker'}`" class="map__marker" :data-id="marker.id" :x="marker.x" :y="marker.y" @mouseenter="(e) => mouseEnterHandler(marker.id, e)" @mouseleave="(e) => mouseLeaveHandler(marker.id, e)" />
 					</g>
@@ -127,6 +131,7 @@ export default {
 		},
 		beginDrag(e){
 			e.stopPropagation();
+			if(e.target.closest('.map_ui')) return
 			let target = e.target;
 
 			if (target.classList.contains('draggable')) {
@@ -180,7 +185,6 @@ export default {
 			}
 		},
 		zoom(e) {
-			console.group('test');
 			e.stopPropagation();
 			e.preventDefault();
 
@@ -197,38 +201,23 @@ export default {
 			}
 
 			this.scale *= scaleStep;
-			console.log('step', scaleStep);
 
-			let boxold = this.svg.getBoundingClientRect();
-			let box = container.getBoundingClientRect();
-			console.log(`box`, box);
-			console.log(`boxold`, boxold);
-			console.log(`mouse x y`, e.clientX, e.clientY);
+			let box = this.svg.getBoundingClientRect();
 			let point = this.svg.createSVGPoint();
 			point.x = e.clientX - box.left;
 			point.y = e.clientY - box.top;
 
 			let currentZoomMatrix = container.transform.baseVal[0].matrix;
 
-			console.log(`point before`, point);
 			point = point.matrixTransform(currentZoomMatrix.inverse());
-			console.log(`point after`, point);
 
 			let matrix = this.svg.createSVGMatrix()
 					.translate(point.x, point.y)
 					.scale(scaleStep)
 					.translate(-point.x, -point.y);
 
-			console.log(`oldMatrix`, currentZoomMatrix);
-			console.log(`matrix`, matrix);
-			console.log(`scaleStep`, scaleStep);
 			let newZoomMatrix = currentZoomMatrix.multiply(matrix);
 			container.transform.baseVal.initialize(this.svg.createSVGTransformFromMatrix(newZoomMatrix));
-
-			console.log("scale", this.scale);
-			let t = newZoomMatrix;
-			console.log("zoomMatrix", t.a, t.b, t.c, t.d, t.e, t.f);
-			console.groupEnd();
 		}
 	},
 	computed: {
