@@ -7,7 +7,7 @@
 		</select>
 		
 		<div class="wrapper">
-			<my-map v-model="test" :markers="markers">
+			<my-map v-model="test" :markers="markers" style="border: 1px solid black">
 			</my-map>
 		</div>
   </div>
@@ -47,7 +47,7 @@ export default {
 	display: flex
 	justify-content: center
 	align-items: center
-	height: 100vh
+	height: 90vh
 
 	& > *
 		flex-shrink: 0
