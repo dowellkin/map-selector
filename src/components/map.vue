@@ -40,7 +40,17 @@
 					transform="matrix(1 0 0 1 0 0)"
 				>
 					<g v-for="marker in markerOrder" :key="marker.id + '_1'" >
-						<use :href="`#${marker.svgId || 'marker'}`" class="map__marker" :data-id="marker.id" :x="marker.x" :y="marker.y" @mouseenter="(e) => mouseEnterHandler(marker.id, e)" @mouseleave="(e) => mouseLeaveHandler(marker.id, e)" />
+						<use
+							:href="`#${marker.svgId || 'marker'}`"
+							class="map__marker"
+							:data-id="marker.id"
+							x="0"
+							y="0"
+							:transform="`matrix(${1 / scale} 0 0 ${1 / scale} ${marker.x} ${marker.y})`"
+							transform-origin="14 36"
+							@mouseenter="(e) => mouseEnterHandler(marker.id, e)"
+							@mouseleave="(e) => mouseLeaveHandler(marker.id, e)"
+						/>
 					</g>
 					<g
 						v-for="marker in markerOrder" :key="marker.id + '_2'"
@@ -48,10 +58,12 @@
 						:class="{ 'map__popup--active': selected == marker.id, 'map__popup--hovered': hovered == marker.id }"
 					>
 						<rect
-							:x="Math.max(marker.x + 14 - popupWidth / 2, 1)"
-							:y="marker.y - 45"
+							:x="0"
+							:y="0"
 							:width="popupWidth"
 							height="40"
+							:transform="`matrix(${1 / scale} 0 0 ${1 / scale} ${Math.max(marker.x + 14 - popupWidth / 2, 1)} ${(marker.y - 45)})`"
+							:transform-origin="`${popupWidth/2} 80`"
 							fill="#fff"
 							stroke-width="1"
 							stroke="#000"
@@ -68,8 +80,10 @@
 						</text> -->
 						<foreignObject
 							v-if="marker.title"
-							:x="Math.max(marker.x + 14 - popupWidth / 2, 1)"
-							:y="marker.y - 45"
+							:x="0"
+							:y="0"
+							:transform="`matrix(${1 / scale} 0 0 ${1 / scale} ${Math.max(marker.x + 14 - popupWidth / 2, 1)} ${(marker.y - 45)})`"
+							:transform-origin="`${popupWidth/2} 80`"
 							:width="popupWidth"
 							height="40"
 							@mouseenter="(e) => mouseEnterHandler(marker.id, e)" @mouseleave="(e) => mouseLeaveHandler(marker.id, e)"
